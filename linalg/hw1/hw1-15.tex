@@ -1,0 +1,613 @@
+\documentclass[12pt]{article}
+\usepackage{amsfonts,amssymb,amsmath}
+%\documentstyle[12pt,amsfonts]{article}
+%\documentstyle{article}
+
+\setlength{\topmargin}{-.5in}
+\setlength{\oddsidemargin}{0 in}
+\setlength{\evensidemargin}{0 in}
+\setlength{\textwidth}{6.5truein}
+\setlength{\textheight}{8.5truein}
+%\input ../basicmath/basicmathmac.tex
+%
+%\input ../adgeomcs/lamacb.tex
+\input mac.tex
+\input mathmac.tex
+
+\def\fseq#1#2{(#1_{#2})_{#2\geq 1}}
+\def\fsseq#1#2#3{(#1_{#3(#2)})_{#2\geq 1}}
+\def\qleq{\sqsubseteq}
+
+%
+\begin{document}
+\begin{center}
+\fbox{{\Large\bf Fall 2015 \hspace*{0.4cm} CIS 515}}\\
+\vspace{1cm}
+{\Large\bf Fundamentals of Linear Algebra and Optimization\\
+Jean Gallier \\
+\vspace{0.5cm}
+Homework 1}\\[10pt]
+September 3, 2015; Due September 17, 2015\\
+\end{center}
+
+
+\vspace {0.25cm}\noindent
+{\bf Problem B1 (30 pts).}
+(i)
+Prove that the axioms of vector spaces imply that
+\begin{align*}
+\alpha\cdot 0 & = 0\\
+0 \cdot v & = 0 \\
+\alpha\cdot (-v) & = -(\alpha\cdot v) \\
+(-\alpha)\cdot v & =  - (\alpha \cdot v),
+\end{align*}
+for all $v\in E$ and all $\alpha\in K$, where $E$ is a vector  space over
+$K$.
+
+\medskip
+(ii)
+For every $\lambda\in \reals$ and every
+$x = (x_1, \ldots, x_n) \in \reals^n$, define
+$\lambda x$ by
+\[
+\lambda x = \lambda (x_1, \ldots, x_n)
+= (\lambda x_1, \ldots, \lambda x_n).
+\]
+Recall that every vector 
+$x = (x_1, \ldots, x_n) \in \reals^n$ can be written uniquely as
+\[
+x = x_1 e_1 + \cdots + x_n e_n,
+\]
+where $e_i = (0, \ldots, 0, 1, 0, \ldots, 0)$, with a single $1$ in
+position $i$. For any operation 
+$\mapdef{\cdot}{\reals\times  \reals^n}{\reals^n}$,
+if $\cdot $ satisfies the axioms (V1--V3) of a vector space, then
+prove that for any $\alpha\in \reals$, we have
+\[
+\alpha\cdot x = 
+\alpha \cdot (x_1 e_1 + \cdots + x_n e_n)
+= \alpha \cdot (x_1e_1) + \cdots +
+\alpha \cdot  (x_ne_n). 
+\]
+Conclude that $\cdot$ is completely determined by
+its action on the one-dimensional subspaces of $\reals^n$  spanned by
+$e_1, \ldots, e_n$.
+
+\medskip
+(iii)
+Use (ii) to define operations $\mapdef{\cdot}{\reals\times
+  \reals^n}{\reals^n}$
+that satisfy the axioms (V1--V3), but for which axiom V4 fails.
+
+\medskip
+(iv) {\bf Extra credit (20 pts)\/}.
+For any operation 
+$\mapdef{\cdot}{\reals\times  \reals^n}{\reals^n}$, prove that
+if $\cdot $ satisfies the axioms (V1--V3), then  
+for every rational number $r\in \rats$ and every vector
+$x\in \reals^n$, 
+we have
+\[
+r\cdot x = r(1\cdot x).
+\]
+In the above equation, $1\cdot x$ is some vector
+$(y_1, \ldots, y_n)\in \reals^n$ not necessarily equal to
+$x = (x_1, \ldots, x_n)$,  and 
+\[
+r(1\cdot x) = (ry_1, \ldots, ry_n),
+\]
+as in part (ii).
+
+\medskip
+Use (iv) to conclude that any operation
+$\mapdef{\cdot}{\rats\times  \reals^n}{\reals^n}$
+that satisfies the axioms (V1--V3) is completely determined
+by the action of $1$ on the  one-dimensional subspaces of $\reals^n$ spanned by
+$e_1, \ldots, e_n$.
+
+
+
+\vspace {0.25cm}\noindent
+{\bf Problem B2 (45 pts).} (In solving this problem, {\bf do not use determinants}).
+(1)
+Let $(u_1, \ldots, u_m)$ and $(v_1, \ldots, v_m)$ be two families of 
+vectors in some vector space $E$. Assume that
+each $v_i$ is a linear combination
+of the $u_j$s, so that
+\[
+v_i = a_{i\, 1}u_1 + \cdots + a_{i\, m}u_m,
+\quad 1 \leq i \leq m,
+\]
+and that the matrix $A = (a_{i\, j})$ is an upper-triangular matrix,
+which means that if  $1\leq j < i \leq m$, then $a_{i\, j} = 0$. 
+Prove that if $(u_1, \ldots, u_m)$ are linearly independent and if
+all the diagonal entries of $A$ are nonzero, then
+$(v_1, \ldots, v_m)$ are also linearly independent.
+
+
+\medskip
+\hint
+Use induction on $m$.
+
+
+\medskip
+(2)
+Let $A = (a_{i\, j})$ be an upper-triangular matrix. Prove that
+if all the diagonal entries of $A$ are nonzero, then $A$ is invertible and
+the inverse $A^{-1}$  of $A$ is also upper-triangular.
+
+\medskip
+\hint
+Use induction on $m$.
+
+\medskip
+Prove that if $A$ is invertible, then all the 
+diagonal entries of $A$ are nonzero (do not use determinants or 
+eigenvalues!).
+
+\medskip
+(3)
+Prove that if the families
+$(u_1, \ldots, u_m)$ and $(v_1, \ldots, v_m)$ are related as 
+in (1), then $(u_1, \ldots, u_m)$ are linearly independent iff
+$(v_1, \ldots, v_m)$ are.
+
+
+
+\vspace {0.25cm}\noindent
+{\bf Problem B3 (40 pts).} (In solving this problem, {\bf do not use determinants}).
+Consider the $n \times n$ matrix
+\[
+A =
+\begin{pmatrix}
+1 & 2 & 0  & 0 & \ldots & 0 & 0\\
+0 & 1 & 2  & 0 & \ldots & 0 & 0\\
+0 & 0 & 1  & 2 & \ldots & 0 & 0\\
+\vdots &\vdots & \ddots & \ddots& \ddots&\vdots&\vdots \\
+0 & 0 & \ldots &  0 & 1 &  2 & 0 \\
+0 & 0 & \ldots &  0 & 0 &  1 & 2 \\
+0 & 0 & \ldots &  0 & 0 &  0 & 1
+\end{pmatrix}.
+\]
+
+\medskip
+(1) Find the solution $x = (x_1, \ldots, x_n)$ of
+the linear system 
+\[
+Ax = b,
+\]
+for 
+\[
+b = 
+\begin{pmatrix}
+b_1 \\
+b_2 \\
+\vdots \\
+b_n
+\end{pmatrix}.
+\]
+
+\medskip
+(2)
+Prove that the matrix $A$ is invertible and find its inverse $A^{-1}$.
+Given that the number of atoms in the universe is estimated to be 
+$\leq 10^{82}$, compare the size of the coefficients
+the inverse of $A$ to $10^{82}$,  if $n \geq 300$.
+
+\medskip
+(3)
+Prove that $(A - I)^n = 0$.
+
+\vspace {0.25cm}\noindent
+{\bf Problem B4 (80 pts).}
+Consider the polynomials
+\begin{align*}
+B_0^2(t) & = (1 - t)^2  & B_1^2(t)  & = 2(1 - t)t & B_2^2(t) & = t^2 
+&   &    \\
+B_0^3(t) & = (1 - t)^3  & B_1^3(t) & = 3(1 - t)^2t & B_2^3(t) & = 3(1 - t)t^2 
+ &  B_3^3(t) & = t^3,
+\end{align*}
+known as the {\it Bernstein polynomials\/} of degree $2$ and $3$.
+
+\medskip
+(1)
+Show that the Bernstein polynomials $B_0^2(t), B_1^2(t), B_2^2(t)$
+are expressed as linear combinations of the basis
+$(1, t, t^2)$ of the vector space of polynomials of degree at most $2$ 
+as follows:
+\[
+\begin{pmatrix}
+B_0^2(t)\\
+B_1^2(t)\\
+B_2^2(t)
+\end{pmatrix} = 
+\begin{pmatrix}
+1 & -2  & 1 \\
+0 &  2  & -2 \\
+0 &  0  & 1  
+\end{pmatrix} 
+\begin{pmatrix}
+1 \\
+t \\
+t^2
+\end{pmatrix}. 
+\]
+
+Prove that
+\[
+B_0^2(t) +  B_1^2(t) +  B_2^2(t) = 1.
+\]
+
+\medskip
+(2)
+Show that the Bernstein polynomials $B_0^3(t), B_1^3(t), B_2^3(t), B_3^3(t)$
+are expressed as linear combinations of the basis
+$(1, t, t^2, t^3)$ of the vector space of polynomials of degree at most $3$ 
+as follows:
+\[
+\begin{pmatrix}
+B_0^3(t)\\
+B_1^3(t)\\
+B_2^3(t) \\
+B_3^3(t) 
+\end{pmatrix} = 
+\begin{pmatrix}
+1 & -3  & 3 & -1 \\
+0 &  3  & -6 & 3 \\
+0 &  0  & 3  & -3 \\
+0 &  0  & 0  & 1
+\end{pmatrix} 
+\begin{pmatrix}
+1 \\
+t \\
+t^2\\
+t^3
+\end{pmatrix}. 
+\]
+
+Prove that
+\[
+B_0^3(t) +  B_1^3(t) +  B_2^3(t) + B_3^3(t) = 1.
+\]
+
+\medskip
+(3)
+Prove that the Bernstein polynomials of degree $2$
+are linearly independent, and that
+the Bernstein polynomials of degree $3$
+are linearly independent.
+  
+\medskip
+(4)
+Recall that the {\it binomial coefficient\/} $\binom{m}{k}$ is given by
+\[
+\binom{m}{k} = \frac{m!}{k!(m - k)!},
+\]
+with $0 \leq k \leq m$.
+
+\medskip
+For any $m \geq 1$, we have the $m + 1$ 
+{\it Bernstein polynomials\/} of degree $m$ given by
+\[
+B_k^m(t) = \binom{m}{k} (1 - t)^{m - k}t^k,
+\quad 0 \leq k \leq m.
+\]
+Prove that
+\begin{equation}
+B_k^m(t) = \sum_{j = k}^m (-1)^{j - k} \binom{m}{j}\binom{j}{k} t^j.
+\tag{$*$}
+\end{equation}
+Use the above to prove that $B_0^m(t), \ldots, B_m^m(t)$ are linearly
+independent.
+
+\medskip
+(5)
+Prove that 
+\[
+B_0^m(t)+  \cdots +  B_m^m(t) = 1.
+\]
+
+
+\medskip\noindent
+{\bf Extra credit (20 pts)\/}.
+What can you say about the symmetries of the $(m + 1)\times (m + 1)$ matrix
+expressing $B_0^m, \ldots, B_m^m$ in terms of the basis
+$1, t, \ldots,t^m$?
+
+\medskip
+Prove your claim (beware that in equation $(*)$
+the coefficient of $t^j$ in $B^m_k$ is the
+entry on the $(k + 1)$th row of the $(j + 1)$th column,
+since $0 \leq k,j \leq m$.
+Make appropriate modifications to the indices).
+
+\medskip
+What can you say about the sum of the entries on
+each row of the above matrix?
+What about the sum of the entries on
+each column?
+
+
+\medskip
+(6) (This is {\bf no longer for extra credit!})
+The purpose of this question is to express the $t^i$ in terms of
+the  Bernstein polynomials  $B_0^m(t), \ldots, B_m^m(t)$,
+with $0 \leq i \leq m$.
+
+\medskip
+First, prove that
+\[
+t^i = \sum_{j = 0}^{m - i} t^i B_j^{m - i}(t),
+\quad 0 \leq i \leq m. 
+\]
+Then prove that
+\[
+\binom{m}{i}\binom{m - i}{j} = \binom{m}{i + j}\binom{i + j}{i}.
+\]
+Use the above facts to prove that
+\[
+t^i = \sum_{j = 0}^{m - i} \frac{\binom{i + j}{i}}{\binom{m}{i}}\, B_{i + j}^m(t).
+\]
+
+Conclude that the  Bernstein polynomials  $B_0^m(t), \ldots, B_m^m(t)$
+form a basis of the vector space of polynomials of degree $\leq m$.
+
+\medskip
+Compute the matrix expressing $1, t, t^2$ in terms
+of  $B_0^2(t), B_1^2(t), B_2^2(t)$, and the matrix
+expressing $1, t, t^2, t^3$ in terms of 
+$B_0^3(t), B_1^3(t), B_2^3(t), B_3^3(t)$.
+
+\medskip\noindent
+You should find
+\[
+\begin{pmatrix}
+1 & 1 & 1 \\
+0 & 1/2 & 1 \\
+0 & 0 & 1
+\end{pmatrix}
+\]
+and
+\[
+\begin{pmatrix}
+1 & 1 & 1  & 1\\
+0 & 1/3 & 2/3 & 1 \\
+0 & 0 & 1/3 & 1\\
+0 & 0 & 0 & 1
+\end{pmatrix}.
+\]
+
+\medskip
+(7)
+A {\it polynomial curve $C(t)$ of degree $m$\/} in the plane is the set of
+points \\
+$C(t) =
+\begin{pmatrix}
+x(t) \\
+y(t)
+\end{pmatrix}$
+given by two polynomials
+of degree $\leq m$, 
+\begin{align*}
+x(t) & = \alpha_0t^{m_1} + \alpha_1t^{m_1 - 1} + \cdots + \alpha_{m_1} \\
+y(t) & = \beta_0t^{m_2} + \beta_1t^{m_2 - 1} + \cdots + \beta_{m_2}, 
+\end{align*}
+with $1 \leq m_1, m_2 \leq m$ and $\alpha_0, \beta_0 \not = 0$.
+
+\medskip
+Prove that there exist $m + 1$ points $b_0, \ldots, b_m\in \reals^2$ so that
+\[
+C(t) = 
+\begin{pmatrix}
+x(t) \\
+y(t) 
+\end{pmatrix}
+= 
+B_0^m(t) b_0 + B_1^m(t) b_1 + \cdots + B_m^m(t) b_m
+\]
+for all $t\in \reals$, with
+$C(0) = b_0$ and $C(1) = b_m$.
+Are the points $b_1, \ldots, b_{m - 1}$ generally on the curve?
+
+\medskip
+We say that the curve $C$ is a {\it B\'ezier curve\/} and  
+$(b_0, \ldots, b_m)$ is the list of
+{\it control points\/} of the curve (control points need not be distinct).
+
+\medskip
+
+\remark
+Because $B_0^m(t) + \cdots + B_m^m(t) = 1$
+and $B_i^m(t) \geq 0$ when $t\in [0, 1]$, the curve segment
+$C[0,1]$ corresponding to $t\in [0, 1]$ belongs to the convex
+hull of the control points. This is an important property of B\'ezier curves
+which is used in geometric modeling to find the intersection of curve
+segments.  B\'ezier curves play an important role in
+computer graphics and geometric modeling, but also in
+robotics because they can be used to model the trajectories
+of moving objects.
+
+\vspace {0.25cm}\noindent
+{\bf Problem B5 (40 pts).}
+ (a) Let $A$ be an $n\times n$ matrix.
+If $A$ is invertible, prove that for any $x\in \reals^n$,
+if $Ax = 0$,  then $x = 0$.
+
+\medskip
+The converse is true: If for all $x\in \reals^n$,
+$A x = 0 $ implies that $x = 0$, then $A$ is invertible.
+We will prove this fact later, and you may use it without proof
+in part (b) of this problem.
+
+\medskip
+(b)
+Let $A$ be an $m\times n$ matrix and let $B$ be an $n\times m$ matrix.
+Prove that $I_m - AB$ is invertible iff $I_n - BA$ is invertible.
+
+%\medskip
+%\hint
+%Look at $A(I + BA)$ and $(I + AB)A$.
+
+
+\vspace {0.25cm}\noindent
+{\bf Problem B6 (40 pts).}
+Consider the following $n\times n$ matrix, 
+for $n \geq 3$:
+\[
+B = 
+\begin{pmatrix}
+1 & -1 & -1   & -1 & \cdots & -1 & -1 \\
+1 & -1 &   1   &  1   & \cdots  & 1  & 1 \\
+1 &  1  &  -1  &  1   & \cdots  & 1 & 1\\
+1 &  1  &  1  &  -1   & \cdots  & 1 & 1\\
+\vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots\\
+1 &   1  &   1 &  1 & \cdots & -1 & 1 \\ 
+1 &   1  &   1 &  1 & \cdots & 1  & -1
+\end{pmatrix}
+\]
+
+(1) If we denote the columns of $B$ by $b_1, \ldots, b_n$, prove that
+\begin{align*}
+(n - 3)b_1 - (b_2 + \cdots + b_n) & = 2(n - 2) e_1 \\
+b_1 - b_2 & = 2(e_1 + e_2) \\
+b_1 - b_3 & = 2(e_1 + e_3) \\
+\vdots\quad &\qquad\quad \vdots \\
+b_1 - b_n & = 2(e_1 + e_n) ,
+\end{align*}
+where $e_1, \ldots, e_n$ are the canonical basis vectors of $\reals^n$.
+
+
+\medskip
+(2)
+Prove that $B$ is invertible and that its inverse $A = (a_{i j})$ is given by
+\[
+a_{1 1} =  \frac{(n - 3)}{2(n - 2)}, \quad
+a_{i 1} = - \frac{1}{2(n - 2)} \quad 2\leq i \leq n
+\]
+and
+\begin{align*}
+a_{i i} & =  - \frac{(n - 3)}{2(n - 2)}, \quad 2 \leq i \leq n \\
+a_{j i} & =  \frac{1}{2(n - 2)}, \quad 2\leq i \leq n, j\not= i.
+\end{align*}
+
+\medskip
+(3)
+Show that the $n$ diagonal $n\times n$ matrices $D_i$
+defined such that the diagonal entries of  $D_i$
+are equal the entries  (from top down)  of the $i$th column of $B$ form a basis
+of the space of $n\times n$ diagonal matrices
+(matrices with zeros everywhere except possibly on the diagonal).
+For example, when $n = 4$, we have
+\begin{align*}
+D_1 & = 
+\begin{pmatrix}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1 
+\end{pmatrix}
+&
+D_2 & = 
+\begin{pmatrix}
+-1 & 0 & 0 & 0 \\
+0 & -1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1 
+\end{pmatrix},
+\\
+D_3 &= 
+\begin{pmatrix}
+-1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & -1 & 0 \\
+0 & 0 & 0 & 1 
+\end{pmatrix},
+&
+D_4 &= 
+\begin{pmatrix}
+-1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & -1 
+\end{pmatrix}.
+\end{align*}
+
+\vspace {0.25cm}\noindent
+{\bf Problem B7 (30 pts).}
+Let $H$ be the set of
+$3\times 3$  upper triangular matrices  given by
+\[
+H = 
+\left\{
+\begin{pmatrix}
+1 & a & b \\
+0 & 1 & c \\
+0 & 0 & 1
+\end{pmatrix}
+\> \left|\> a, b, c\in \reals \right.
+\right\}.
+\]
+
+(1)
+Prove that $H$ with the binary operation of matrix multiplication is a group;
+find explicitly the inverse of every matrix in $H$.
+Is $H$ abelian (commutative)?
+
+\medskip
+(2)
+Given two groups $G_1$ and $G_2$, recall that a 
+{\it homomorphism\/} if a function $\mapdef{\varphi}{G_1}{G_2}$
+such that
+\[
+\varphi(ab) = \varphi(a)\varphi(b), \quad a, b\in G_1.
+\]
+
+Prove that $\varphi(e_1) = e_2$ (where $e_i$ is the identity element
+of $G_i$) and that
+\[
+\varphi(a^{-1}) = (\varphi(a))^{-1}, \quad a\in G_1.
+\] 
+
+(3)
+Let $S^1$ be the unit circle, that is 
+\[
+S^1 = \{ e^{i\theta} = \cos\theta + i\sin\theta \mid 0 \leq \theta < 2\pi\},
+\]
+and let $\varphi$ be the function given by
+\[
+\varphi \begin{pmatrix}
+1 & a & b \\
+0 & 1 & c \\
+0 & 0 & 1
+\end{pmatrix}
+ = (a, c, e^{ib}).
+\]
+
+Prove that $\varphi$ is a surjective function onto
+$G = \reals\times\reals\times S^1$, and that if we define multiplication
+on this set by
+\[
+(x_1, y_1, u_1)\cdot (x_2, y_2, u_2) = (x_1 + x_2 , y_1 + y_2, 
+e^{i x_1y_2} u_1u_2),
+\]
+then $G$ is a group and 
+$\varphi$ is a group homomorphism from $H$ onto $G$.
+
+
+\medskip
+(4) {\bf Extra credit (10 pts)\/}.
+The {\it kernel} of a homomorphism $\mapdef{\varphi}{G_1}{G_2}$
+is defined as
+\[
+\Ker(\varphi) = \{a\in G_1 \mid \varphi(a) = e_2\}. 
+\]
+Find explicitly the kernel of $\varphi$ and show that
+it is a subgroup of $H$.
+
+
+
+
+\vspace{0.5cm}\noindent
+{\bf TOTAL: 305 + 50 points.}
+
+\end{document}
