@@ -69,8 +69,8 @@ void Camera::RecomputeAttributes()
     look  = glm::normalize(ref-eye);
     right = glm::normalize(glm::cross(look, world_up));
     up = glm::normalize(glm::cross(right, look));
-    static float len = glm::length((ref - eye));
-    static float angle = tan((fovy/2.0f)*DEG2RAD);
+    float len = glm::length((ref - eye));
+    float angle = tan((fovy/2.0f)*DEG2RAD);
     V = up*len*angle;
     H = right*len*aspect*angle;
 
@@ -115,8 +115,8 @@ glm::mat4 Camera::ViewMatrix()
     O_cw[2] = glm::vec4(look,0);
     O_cw[3] = glm::vec4(0,0,0,1.0f);
     glm::mat4 O = glm::transpose(O_cw);
-
     return O*T_cw;
+
 
 }
 
@@ -166,14 +166,33 @@ Ray Camera::Raycast(const glm::vec2 &pt)
 
 Ray Camera::Raycast(float x, float y)
 {
-    //TODO
-    return Ray(glm::vec3(), glm::vec3());
+    float ndc_x, ndc_y;
+
+    // normalize x and y
+    ndc_x = (2.0f*x/width) -1;
+    ndc_y = 1-  (2.0f*y/height) ;
+
+    // ray direction calculation
+    glm::vec3 p = ref  + ndc_x*H  + ndc_y*V;
+
+
+    Ray* castedRay = new Ray(eye,glm::normalize(p - eye) );
+//    return Ray(glm::vec3(), glm::vec3());
+
+    return *castedRay;
 }
 
 Ray Camera::RaycastNDC(float ndc_x, float ndc_y)
 {
-    //TODO
-    return Ray(glm::vec3(), glm::vec3());
+
+    // ray direction calculation
+    glm::vec3 p = ref  + ndc_x*H  + ndc_y*V;
+
+
+    Ray* castedRay = new Ray(eye,glm::normalize(p - eye) );
+
+//    return Ray(glm::vec3(), glm::vec3());
+    return *castedRay;
 }
 
 void Camera::create()

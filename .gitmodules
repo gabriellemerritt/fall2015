@@ -1,0 +1,3 @@
+[submodule "linalg/Homework"]
+	path = linalg/Homework
+	url = https://github.com/stephenphillips42/CIS515Homework.git

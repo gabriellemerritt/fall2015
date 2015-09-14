@@ -6,11 +6,77 @@
 
 static const int SPH_IDX_COUNT = 2280;  // 760 tris * 3
 static const int SPH_VERT_COUNT = 382;
+float computeParam(const float A, const float B, const float C);
+bool rayIntersectionTest (const float A, const float B, const float C);
 
-Intersection Sphere::GetIntersection(Ray r)
+bool rayIntersectionTest(const float A, const float B, const float C)
 {
-    //TODO
-    return Intersection();
+    float discrim = pow(B,2) - 4.0f*A*C;
+    if(discrim < 0.0f )
+    {
+        return  false;
+    }
+    return true;
+
+}
+
+float computeParam(const float A, const float B, const float C)
+{
+    float t_0 = (-B + sqrt(pow(B,2.0) -4.0f*A*C))/(2*A);
+    float t_1  = (-B - sqrt(pow(B,2.0) -4.0f*A*C))/(2*A);
+
+    if( t_0 > t_1)
+    {
+        float temp = t_0;
+        t_0 = t_1;
+        t_1 = temp;
+    }
+
+    if(t_0 > 0.0f)
+    {
+        return t_0;
+    }
+    return t_1;
+}
+
+Intersection Sphere::GetIntersection(Ray r) // needs to be transformed probably
+{
+    float radius = 0.5f;
+    float A,B,C;
+        Intersection sphereIntersection;
+
+        Ray rt = r.GetTransformedCopy(transform.invT());
+        A =pow(rt.direction.x, 2.0) + pow(rt.direction.y,2.0) + pow(rt.direction.z, 2.0);
+        B  = 2*(rt.direction.x*(rt.origin.x - 0.0f) + rt.direction.y*(rt.origin.y - 0.0f) + rt.direction.z*(rt.origin.z - 0.0f));
+        C = pow((rt.origin.x - 0.0f),2.0) + pow((rt.origin.y - 0.0f),2 ) + pow((rt.origin.z -0.0f),2.0) - pow(0.5f,2.0);
+        if ( !rayIntersectionTest(A,B,C))
+        {
+            sphereIntersection.object_hit = NULL;
+            return sphereIntersection;
+        }
+       float  t  = computeParam(A,B,C);
+        sphereIntersection.object_hit = this;
+
+        // convert to world space
+        glm::vec3 point_object_space = r.origin + t*r.direction;
+
+        glm::vec4 point_homo = transform.T()*glm::vec4(point_object_space,1); // check transform
+
+//        glm::vec4  norm = transform.T()* glm::vec4(point_object_space.x/radius, point_object_space.y/radius, point_object_space.z/radius, 1);
+
+        glm::vec3 point_w = glm::vec3(point_homo[0], point_homo[1], point_homo[2]);
+
+        glm::vec3 sphereNorm = glm::normalize(point_w);
+
+       float world_t = glm::length(point_w - r.origin);
+       sphereIntersection.point = point_w;
+       sphereIntersection.t =world_t;
+       sphereIntersection.normal = sphereNorm;
+
+
+
+
+    return sphereIntersection;
 }
 
 // These are functions that are only defined in this cpp file. They're used for organizational purposes

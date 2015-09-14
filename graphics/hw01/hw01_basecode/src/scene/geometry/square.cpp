@@ -1,8 +1,8 @@
 #include <scene/geometry/square.h>
-
+// THIS IS  A PLANE
 Intersection SquarePlane::GetIntersection(Ray r)
 {
-    //TODO
+
     return Intersection();
 }
 
