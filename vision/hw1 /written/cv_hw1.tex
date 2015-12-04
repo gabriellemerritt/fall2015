@@ -1,0 +1,290 @@
+\documentclass[11pt,english]{article}
+\usepackage[latin9]{inputenc}
+\usepackage[letterpaper]{geometry}
+\geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+\usepackage{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{graphicx}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{latexsym}
+\usepackage{xspace}
+\usepackage{pdflscape}
+\usepackage[hyphens]{url}
+\usepackage[colorlinks]{hyperref}
+\usepackage{enumerate}
+\usepackage{ifthen}
+\usepackage{float}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+\usepackage{algorithm2e}
+\setcounter{MaxMatrixCols}{20}
+
+\newcommand{\rthree}{\mathbb{R}^3}
+\title{CIS 581 Homework 1 \\
+Due:  Tuesday September 15th}
+ \author{Gabrielle Merritt}
+ 
+\date{}
+
+\begin{document}
+\maketitle
+\section*{ Convolution } 
+
+\begin{equation}
+ I = \begin{pmatrix}
+0 & 1 & 0.5 & 0.5 & 0 & 0.5 & 0.5 & 1 & 0 & 1 & 1 \\
+0 & 1 & 0.5 & 0.5 & 0 & 0.5 & 0.5 & 1 & 0 & 1 & 1 \\
+1 & 1 & 0.5 & 0.5 & 0 & 0.5 & 0.5 & 1 & 0 & 1 & 0 \\
+1 & 1 & 0   & 1   & 1 & 0   & 0   & 1 & 1 & 0 & 0 \\
+1 & 1 & 0.5 & 0.5 & 0 & 0.5 & 1   & 1 & 1 & 0 & 0 \\
+0 & 0 & 0.5 & 0.5 & 0 & 0.5 & 1   & 1 & 0 & 0 & 1 \\
+0 & 0 & 0.5 & 0.5 & 1 & 1   & 1   & 1 & 1 & 0 & 0\\
+\end{pmatrix}
+\end{equation}
+
+For the following filtering operation, use $a = 0.4$(Gaussian). 
+Let $ J1 = (I \otimes Gx) \otimes Gy $
+Let$ Gxy = Gx \otimes Gy$ , and $ J2 = I \otimes  Gxy$.
+Compute J1 and J2 using the image
+I and verify they are the same. How many operations(addition
+and multiplication) are required for computing J1 and  J2?
+
+\paragraph{Solution}
+To demonstrate convolution I picked $I(0,0)$ , $I(7,11)$, $I(7,5)$, and $I(5,5)$.
+for$ a = .4$
+$$G_x = \begin{vmatrix}
+.05 & .25& .4 &.25 &.05\\
+\end{vmatrix} $$
+ Where the index starts from -2 and goes to 2
+for $J_1$ First we convolve $G_x$ with the image I
+$$\big(\sum_k I(i -k, j-l) G(k)\big)  $$ 
+
+
+Example calculation for $I(0,0)$ , $I(7,11)$, $I(7,5)$, and $I(5,5)$.
+First pad the Image in both x and y directions with column indices from  -2 to 12, and row indices from -2 to 10. 
+$$
+ I_{pad} = \begin{pmatrix}
+0.5 & 1 & 1 & 1 & 0.5 & 0.5 & 0 & 0.5 & 0.5 & 1 & 0 & 1 & 0 & 1 & 0 \\
+0.5 & 1 & 0 & 1 & 0.5 & 0.5 & 0 & 0.5 & 0.5 & 1 & 0 & 1 & 1 & 1 & 0 \\
+0.5 & 1 & 0 & 1 & 0.5 & 0.5 & 0 & 0.5 & 0.5 & 1 & 0 & 1 & 1 & 1 & 0 \\
+0.5 & 1 & 0 & 1 & 0.5 & 0.5 & 0 & 0.5 & 0.5 & 1 & 0 & 1 & 1 & 1 & 0 \\
+0.5 & 1 & 1 & 1 & 0.5 & 0.5 & 0 & 0.5 & 0.5 & 1 & 0 & 1 & 0 & 1 & 0 \\
+0   & 1 & 1 & 1 & 0   & 1   & 1 & 0   & 0   & 1 & 1 & 0 & 0 & 0 & 1 \\
+0.5 & 1 & 1 & 1 & 0.5 & 0.5 & 0 & 0.5 & 1   & 1 & 1 & 0 & 0 & 0 & 1 \\
+0.5 & 0 & 0 & 0 & 0.5 & 0.5 & 0 & 0.5 & 1   & 1 & 0 & 0 & 1 & 0 & 0 \\
+0.5 & 0 & 0 & 0 & 0.5 & 0.5 & 1 & 1   & 1   & 1 & 1 & 0 & 0 & 0 & 1 \\
+0.5 & 0 & 0 & 0 & 0.5 & 0.5 & 0 & 0.5 & 1   & 1 & 0 & 0 & 1 & 0 & 0 \\
+0.5 & 1 & 1 & 1 & 0.5 & 0.5 & 0 & 0.5 & 1   & 1 & 1 & 0 & 0 & 0 & 1
+\end{pmatrix}
+$$
+\\
+\begin{align*}
+I_{new}(0,0) \\
+&= \big(\sum_k I_{pad}(i -k, j) G_x(k)\big)  = I_{pad} (-2,0)G_x(2) \\ 
+&+ I_{pad} (-1,0)G_x(1) +  I_{pad} (0,0)G_x(0)  + I_{pad}(2,0)G_x(-2) +  I_{pad} (1,0)G_x(-1) = .55  
+\end{align*}
+
+\begin{align*}
+J1(0,0) \\
+&=\big(\sum_l I(i , j-l) G_y(l)\big)  =  I_{new} (0,-2)G_y(2) + I_{new} (0,-1)G_y(1) \\
+&+ I_{new}(0,0)G_y(0)  + I_{new}(0,1)G_y(-1) +  I_{new}(0,2)G_y(-2)\\
+ &=.95*.05 + .55*.25 + .55*.4 + .55*.25 + .95*.05=  .59 
+\end{align*}
+
+\begin{align*}
+ I_{new}(6,10)\\
+ &= \big(\sum_k I_{pad}(i -k, j) G_x(k)\big)  = I_{pad} (4,10)G_x(2) \\ 
+&+ I_{pad} (5,10)G_x(1) +  I_{pad} (6,10)G_x(0)  + I_{pad}(7,10)G_x(-1) +  I_{pad} (8,10)G_x(-2)  \\
+&= .1000  
+\end{align*}
+
+\begin{align*}
+J1(6,10) \\
+&= \big(\sum_l I(i , j-l) G_y(l)\big)  =  I_{new} (6,8)G_y(2) +  I_{new} (6,9)G_y(1) \\
+&+I_{new}(6,10)G_y(0)  + I_{new}(6,11)G_y(-1) +  I_{new}(6,12)G_y(-2) \\
+&= .1*.05 + .4*.25 + .1*.4 + .4*.25 + .1*.05= .25  
+\end{align*}
+
+
+
+\begin{align*} 
+  I_{new}(5,5)\\
+  &= \big(\sum_k I(i -k, j) G_x(k)\big)  = I_{pad} (3,5)G_x(2) +  I_{pad} (4,5)G_x(1) \\
+&+  I_{pad} (5,5)G_x(0)  + I_{pad}(6,5)G_x(-1) +  I_{pad} (7,5)G_x(-2) = .3250  
+\end{align*}
+\begin{align*} 
+J1(5,5)\\ 
+&= \big(\sum_l I(i , j-l) G_y(l)\big)  =  I_{new} (5,3)G_y(2) +  I_{new} (5,4)G_y(1)\\
+&+  I_{new}(5,5)G_y(0)  + I_{new}(5,6)G_y(-1) +  I_{new}(5,7)G_y(-2) = .4312  
+\end{align*}
+\begin{align*} 
+ I_{new}(6,0)\\ 
+&= \big(\sum_k I(i -k, j) G_x(k)\big)  = I_{pad} (4,0)G_x(2) +  I_{pad} (5,0)G_x(1) \\
+&+ I_{pad} (6,0)G_x(0)  + I_{pad}(7,0)G_x(-1) +  I_{pad} (8,0)G_x(-2) = .0500 
+\end{align*}
+\begin{align*} 
+J1(7,0) \\
+&= \big(\sum_l I(i , j-l) G_y(l)\big)  =  I_{new} (6,-2)G_y(2) +  I_{new} (6,-1)G_y(1)\\
+ &+I_{new}(6,0)G_y(0)  + I_{new}(6,1)G_y(-1) +  I_{new}(7,2)G_y(-2) = .1400 
+ \end{align*}
+ 
+
+For $J_2$ we neex to calculate $G_{xy}$ \\ 
+ $G_{xy} = 
+ \begin{pmatrix}
+ 0.0025 & 0.0125 & 0.02 & 0.0125 & 0.0025 \\
+0.0125 & 0.0625 & 0.1  & 0.0625 & 0.0125 \\
+0.02   & 0.1    & 0.16 & 0.1    & 0.02   \\
+0.0125 & 0.0625 & 0.1  & 0.0625 & 0.0125 \\
+0.0025 & 0.0125 & 0.02 & 0.0125 & 0.0025\\
+ \end{pmatrix}
+ $
+ 
+
+\begin{align*}
+J_2(0,0) \\
+&= I_{pad}(-2,-2)*G_{xy}(-2,-2) + I_{pad}(-2,-1)*G_{xy}(-2,-1) + I_{pad}(-2,0)*G_{xy}(-2,0) \\
+ &+ I_{pad}(-2,1)*G_{xy}(-2,1) +  I_{pad}(-2,2)*G_{xy}(-2,2) \\
+&+I_{pad}(-1,-2)*G_{xy}(-1,-2) + I_{pad}(-1,-1)*G_{xy}(-1,-1) + I_{pad}(-1,0)*G_{xy}(-1,0)\\
+&+ I_{pad}(-1,1)*G_{xy}(-1,1)+  I_{pad}(-1,2)*G_{xy}(-1,2) \\
+&+I_{pad}(0,-2)*G_{xy}(0,-2) + I_{pad}(0,-1)*G_{xy}(0,-1) + I_{pad}(0,0)*G_{xy}(0,0) \\ 
+& +I_{pad}(0,1)*G_{xy}(0,1) + I_{pad}(0,2)*G_{xy}(0,2) \\
+&+ I_{pad}(1,-2)*G_{xy}(1,-2) + I_{pad}(1,-1)*G_{xy}(1,-1) + I_{pad}(1,0)*G_{xy}(1,0)\\
+&+ I_{pad}(1,1)*G_{xy}(1,1) + I_{pad}(1,2)*G_{xy}(1,2) \\
+&+I_{pad}(1,-2)*G_{xy}(2,-2) + I_{pad}(2,-1)*G_{xy}(2,-1) + I_{pad}(2,0)*G_{xy}(2,0) \\
+&+ I_{pad}(1,1)*G_{xy}(2,1) + I_{pad}(1,2)*G_{xy}(2,2) = .59
+\end{align*}
+
+\begin{align*}
+J_2(6,10) \\
+&= I_{pad}(4,8)*G_{xy}(-2,-2) + I_{pad}(4,9)*G_{xy}(-2,-1) + I_{pad}(4,10)*G_{xy}(-2,10) \\
+&+ I_{pad}(4,11)*G_{xy}(-2,1) +  I_{pad}(4,12)*G_{xy}(-2,2)  \\
+&+ I_{pad}(5,8)*G_{xy}(-1,-2) + I_{pad}(5,9)*G_{xy}(-1,-1) + I_{pad}(5,10)*G_{xy}(-1,0)\\
+&+ I_{pad}(5,11)*G_{xy}(-1,1)+  I_{pad}(5,12)*G_{xy}(-1,2)\\
+&+ I_{pad}(6,8)*G_{xy}(0,-2) + I_{pad}(6,9)*G_{xy}(0,-1) + I_{pad}(6,10)*G_{xy}(0,0)\\
+&+ I_{pad}(6,11)*G_{xy}(0,1) + I_{pad}(6,12)*G_{xy}(0,2) \\
+&+ I_{pad}(7,8)*G_{xy}(1,-2) + I_{pad}(7,9)*G_{xy}(1,-1) + I_{pad}(7,10)*G_{xy}(1,0)\\
+&+ I_{pad}(7,11)*G_{xy}(1,1) + I_{pad}(7,12)*G_{xy}(1,2) \\
+&+ I_{pad}(8,8)*G_{xy}(2,-2) + I_{pad}(8,9)*G_{xy}(2,-1) + I_{pad}(8,10)*G_{xy}(2,0)  \\
+&+ I_{pad}(8,11)*G_{xy}(2,1) + I_{pad}(8,12)*G_{xy}(2,2) = .25
+\end{align*}
+
+\begin{align*}
+J_2(5,5) \\
+&= I_{pad}(3,3)*G_{xy}(-2,-2) + I_{pad}(3,4)*G_{xy}(-2,-1) + I_{pad}(3,5)*G_{xy}(-2,10) \\
+&+I_{pad}(3,6)*G_{xy}(-2,1) +  I_{pad}(3,7)*G_{xy}(-2,2) \\
+&+I_{pad}(4,3)*G_{xy}(-1,-2) + I_{pad}(4,4)*G_{xy}(-1,-1) + I_{pad}4,5)*G_{xy}(-1,0)\\
+&+ I_{pad}(4,6)*G_{xy}(-1,1)+  I_{pad}(4,7)*G_{xy}(-1,2)\\
+&+I_{pad}(5,3)*G_{xy}(0,-2) + I_{pad}(5,4)*G_{xy}(0,-1) + I_{pad}(5,5)*G_{xy}(0,0) \\
+&+I_{pad}(5,6)*G_{xy}(0,1) + I_{pad}(5,7)*G_{xy}(0,2)\\
+&+I_{pad}(6,3)*G_{xy}(1,-2) + I_{pad}(6,4)*G_{xy}(1,-1) + I_{pad}(6,5)*G_{xy}(1,0)\\
+&+I_{pad}(6,6)*G_{xy}(1,1) + I_{pad}(6,7)*G_{xy}(1,2)\\ 
+&+I_{pad}(7,3)*G_{xy}(2,-2) + I_{pad}(7,4)*G_{xy}(2,-1) + I_{pad}(7,5)*G_{xy}(2,0)\\
+&+I_{pad}(7,6)*G_{xy}(2,1) + I_{pad}(7,7)*G_{xy}(2,2) = .1400
+\end{align*}
+
+\paragraph{Operations for convolutions}
+For $J_1$ for each point there are 4 addition and 5 multiplication operations per element per convoloution, which makes a total of $2*(4*77) = 616$ addition operations and $2*(5*77) = 770$ multiplication operations. 
+For $J_2$  For the convolution of $G_{xy}$ it takes 25 multiplications, additionally  there are there are 20 addition operations and 25 multiplication operations for one element. Therefore for all 77 elements there would be  $ 20*77  = 1540$ addition operations and $25 + 25*77 = 1950$ multiplication operations. 
+
+\section*{Image Gradient}
+ Compute the image gradient $\Delta I =[I_x, I_y]$ where 
+ $I_x = I \otimes G_x \otimes \delta_x \otimes G_y $ 
+ \\
+ $I_y = I \otimes G_y \otimes \delta_y \otimes G_x $ 
+ \\ 
+ 
+ Since the convolutions are associative we can say that  where J1 has 0 padding 
+ $I_x = I \otimes G_x \otimes G_y \otimes \delta_x  = J_1 \delta_x $ 
+ \\ 
+  $I_y = I \otimes G_x \otimes G_y otimes \delta_y  = J_1 \delta_y $ 
+  \\ 
+  
+  where $\delta_x = [1 -1] $  and  $\delta_y = delta_x^{T} $
+  For 
+  \begin{align*}
+  I_x(0,0) = J_1(0,0)*\delta_x(1) + J_1(1,0)*\delta_x(0) =  0.5900*-1 +  0.6250*1 = .035 \\
+  I_y(0,0)= J_1(0,0)*\delta_y(1) + J_1(0,1)*\delta_y(0) =  0.5900*-1 +  0.66750*1 = .0775\\
+  I_x(6,10) = J_1(6,10)*\delta_x(1) + J_1( 7,10)*\delta_x(0)= .25*-1 + 0*1 = -.25\\
+  I_y(6,10) = J_1(6,10)*\delta_y(1) + J_1( 7,10)*\delta_y(0) = .25*-1 + 0*1 = -.25 \\
+  I_x(5,5) = J_1(5,5)*\delta_x(1) + J_1( 6,5)*\delta_x(0)  = .6287*-1 + .8225 = .1938 \\
+   I_y(5,5) = J_1(5,5)*\delta_y(1) + J_1(5,6)*\delta_y(0) = -0.6287 +.7050 = .0763
+  \end{align*}
+  
+\paragraph{Compute the magnitude}
+
+\begin{align*}
+\|\Delta I_{0,0}\| = \sqrt[I_x(0,0)^2 + I_y(0,0)^2]{2} = \sqrt[ 0.35^2 +0.0775^2 ]{2}  = 0.0850\\
+\|\Delta I_{6,10}\| = \sqrt[I_x(6,10)^2 + I_y(6,10)^2]{2} = \sqrt[ -0.25^2 +-0.25^2 ]{2}  = 0.3536\\
+\|\Delta I_{5,5}\| = \sqrt[I_x(5,5)^2 + I_y(5,5)^2]{2} = \sqrt[ 0.1938^2 +0.0763^2 ]{2}  = 0.2082\\
+\end{align*}
+
+\section*{How edges move after image smoothing}
+
+$$(a) I = \begin{vmatrix}
+ 1 &1& 1& 1& 0& 0 &0& 0& 0 \\
+\end{vmatrix} , G1 = G.$$
+$$(b) I = \begin{vmatrix}
+ 0 &0& 0& 1& 1& 1& 0 &0& 0 \\
+\end{vmatrix}, G2 = G.$$
+$$(c) I = \begin{vmatrix}
+0& 0& 0& 1& 1 &1& 2& 2& 2& 2\\ 
+\end{vmatrix}, G3 = G \otimes G$$
+
+\paragraph{solution:}
+First we convolve the Image with with $\delta_x$ since they are all row vectors. This convolution (with 0 padding)  will give us the edges for the "Image". Then after applying the filter we will see the edges will remain at the same point in the row vector but the magnitude spread out over several pixels. 
+\\
+a) 
+\begin{align*}
+ I \otimes \delta_x  = 
+ \begin{vmatrix}
+  0 &    0  &   0  &   0   & -1   &  0  &   0  &   0 &    0  &   0  \\ 
+\end{vmatrix}    
+\end{align*}
+We see that the edge is at $I(4)$, so when we apply the Gaussian kernel we have 
+    \begin{align*}
+ I \otimes \delta_x \otimes G = 
+ \begin{vmatrix}
+      0  &       0 &  -0.0500  & -0.2500  & -0.4000 &  -0.2500  & -0.0500   &    0   &   0  &   0  \\ 
+\end{vmatrix}    
+\end{align*}
+We see that the greatest magnitude still occurs at I(4), but is blurred across 5 pixels. 
+\\
+b) 
+\\
+\begin{align*}
+ I \otimes \delta_x  = 
+ \begin{vmatrix}
+   0  &   0   &  0   &  1 &    0&     0   & -1   &  0   &  0   &0\\ 
+\end{vmatrix}    
+\end{align*}
+We see that the edge is at $ I(3) and I(6)$, so when we apply the Gaussian kernel we have 
+    \begin{align*}
+ I \otimes \delta_x \otimes G = 
+ \begin{vmatrix}
+      0  &  0.050 &  0.25 &  0.40  &  0.20  & -0.20  & -0.40  & -0.20 &  -0.050   &  0\\
+\end{vmatrix}    
+\end{align*}
+We see that the greatest magnitude still occurs at I(3) and I(6) , but is blurred across the image. 
+\\
+c)
+\\
+\begin{align*}
+ I \otimes \delta_x  = 
+ \begin{vmatrix}
+        0  &   0  &   1  &   0 &    0  &   1  &   0   &  0  &   0   & -2\\ 
+\end{vmatrix}    
+\end{align*}
+We see that the edge is at $ I(2) ,I(5), and I(9)$, so when we apply the Gaussian kernel we have 
+    \begin{align*}
+ I \otimes \delta_x \otimes G \otimes G = 
+ \begin{vmatrix}
+  0.1025 &   0.2250 &   0.2900  &  0.3275   & 0.3275  &  0.2900   & 0.2250 &   -0.1025   -0.4500  & -0.5800\\
+\end{vmatrix}    
+\end{align*}
+We see that with this new filter that we have effectively blurred most of the image leaving the only change in magnitude between I(6) and I(7). 
+
+\end{document}

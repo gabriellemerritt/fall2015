@@ -1,0 +1,247 @@
+\documentclass[8pt, english]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{latexsym,amssymb,amsfonts,hyperref,fullpage,graphicx, float,adjustbox}
+\usepackage[fleqn]{amsmath}
+\usepackage{multicol}
+\usepackage{lastpage,listings}
+\usepackage[hang, small,labelfont=bf,up,textfont=it,up]{caption} % Custom captions under/above floats in tables or figures
+\usepackage{placeins}
+\usepackage{adjustbox}
+\usepackage[toc,page]{appendix}
+\usepackage{tabulary}
+\usepackage[landscape,margin=0.25in]{geometry}
+%\usepackage[landscape]{geometry}
+\title{Gabby Cheat Sheet} 
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries}}
+%\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+%                                {-1explus -.5ex minus -.2ex}%
+%                                {0.5ex plus .2ex}%
+%                                {\normalfont\normalsize\bfseries}}
+%\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+%                                {-1ex plus -.5ex minus -.2ex}%
+%                                {1ex plus .2ex}%
+%                                {\normalfont\small\bfseries}}
+\makeatother
+\begin{document}
+\begin{multicols}{3}
+\raggedright
+\footnotesize
+
+\section*{Linear Filtering}
+\subsection*{Convolutions}
+Flip horizontally and vertically 
+Gaussian Filters:\\ $\sum_k G(k) = 1$\\
+\subsection*{Separable Filters}
+$
+I\otimes F$ \\ 
+$= I \otimes( A + B)$ \\  
+$= I \otimes (A_1) \otimes (A_2) + I\otimes (B_1)\otimes (B_2) $\\
+\section*{Edge Finding}
+Filters: 
+\begin{align*}
+I(x) = G_{x,x}(x,\sigma) \otimes G(x, 3\sigma)\\ 
+G_{x,x} = \begin{vmatrix}
+1 & -1\\
+\end{vmatrix}\\
+I(y) = G_{y,y}(y,\sigma) \otimes (G)\\
+G_{y,y} = \begin{vmatrix}
+1 \\ -1\\
+\end{vmatrix}\\
+\theta_{edge} = \tan^{-1} ( -\frac{\delta f}{\delta x}\div\frac{\delta f}{\delta y})\\
+\end{align*}
+\section*{Canny Edge Detection}
+1. Compute image gradient\\ 
+$J_x = I \otimes ( \frac{\delta}{\delta x} \otimes G)$ \\ 
+2.  Compute edge gradient magnitude 
+$ \nabla J = (J_x, J_y) $ \\ 
+$ || \nabla J || =  \sqrt[2]{J_x^2 + J_y^2} $\\
+\section*{Sampling}
+Blur then sample 
+\subsection*{Gaussian Pyramid}
+\paragraph{Reductions}
+pick weighting function $w_{0} = a $ \\
+$w_{-1}  = w_{1} =  1/4$ 
+$w_{-2} = w_{2} = 1/4 -a $ 
+$g_0 = Image$ 
+\begin{align*}
+g_{L,(i,j)} = \sum^2_{m =-2} \sum^2_{n = -2} w(m,n)g_{L-1}(2i +m, 2j +n)\\
+w(m,n) is the 2d filter\\
+g_L  = g_{L -1} \otimes w down arrow 2 
+\end{align*}
+\paragraph{Expansion}
+\begin{align*}
+g_{L,(i,j)}  = 4 \sum^2_{m= -2} \sum^2_{n = -2} w(m,n) \dot g_{L,n-1}(\frac{i -m }{2}, \frac{j - n}{2})
+\end{align*}
+\section*{Warping}
+\subsection*{Matricies}
+\begin{align*}
+\begin{split}
+\text{Inverse of a Matrix} \\ 
+A^{-1}  =  \frac{1}{det} A^{T} \\
+\text{cross product} \\
+\begin{vmatrix}
+i & j & k \\ 
+x_1 & x_2 & x_3 \\ 
+y_1 & y_2 & y_3 \\
+\end{vmatrix} \\
+ =  (x_2 y_3 - x_3 y_2)i  +\\
+ (x_3 y_1 - x_1 y_3)j  + \\ 
+  (x_1 y_2 - x_2 y_1)k \\
+\text{Translation}\\ 
+\begin{vmatrix}
+ x' \\ y' \\ 1\\
+\end{vmatrix} = \begin{vmatrix}
+ 1 & 0  & t_x\\ 0 & 1 & t_y \\ 0 & 0 & 1\\
+\end{vmatrix} 
+\begin{vmatrix}
+x \\y \\ 1\\
+\end{vmatrix} \\ 
+\end{split}
+\begin{split}
+\text{Scaling} \\
+\begin{vmatrix}
+x' \\ y' \\ 1\\
+\end{vmatrix} = \begin{vmatrix}
+ a & 0  & 0\\ 0 & b & 0 \\ 0 & 0 & 1\\
+\end{vmatrix} \begin{vmatrix}
+x \\y \\ 1
+\end{vmatrix} \\ 
+\text{Rotation} \\ 
+\begin{vmatrix}
+x' \\ y' \\ 1
+\end{vmatrix} = \begin{vmatrix}
+ \cos(\theta) & -\sin(\theta)  & 0\\ \sin(\theta) & \cos(\theta) & 0 \\ 0 & 0 & 1
+\end{vmatrix} \begin{vmatrix}
+x \\y \\ 1
+\end{vmatrix} \\  
+\text{Skew \ Shear} \\ 
+\begin{vmatrix}
+x' \\ y' \\ 1
+\end{vmatrix} = \begin{vmatrix}
+ 1 & sh_x  & 0\\ sh_y & 1 & 0 \\ 0 & 0 & 1
+\end{vmatrix} \begin{vmatrix}
+x \\y \\ 1
+\end{vmatrix} \\ 
+\end{split}
+\end{align*}
+Affine Transformations Need 3 points 
+Projective Transformations Need 4 points
+\subsection*{Triangle Warping to find Homography}
+ONLY FOR AFFINE TRANSFORMATIONS
+Warp 3 source points to unit triangle ($T1^{-1}$)  then warp unit triangle to destination points (T2) 
+\begin{align*}
+\begin{split}
+T1 = \begin{vmatrix}
+A - C &  B - A &  A \\ 
+0 & 0 & 1\\
+\end{vmatrix} \\ 
+\end{split}
+\begin{split}
+T2= \begin{vmatrix}
+A' - C' & B' - A' & A' \\ 
+0&0&1
+\end{vmatrix} \\
+T1^{-1}T2 = H\\
+\end{split}
+\end{align*}
+\subsection*{Random Lin alg}
+A line can be defined as \\
+$l = x \times x'$ (cross product) \\
+Intersection \\ 
+$ x = l \times l' $ \\ 
+Line mapping \\
+$l' = H^{-T} l $ \\
+\subsection*{Bilinear Interpolation}
+\begin{align*}
+ a =  i +1 \\
+ b = j + 1\\
+f(x,y) = f((1 -a) ,(1 -b)) + \\
+f(a,(1 -b)) + f(a,b) + f((1 - a),b)\\
+\end{align*}
+\subsection*{Barycentric Coordinates}
+if $0 \leq a \leq 1$ and  
+$0 \leq a' \leq 1$ then 
+x is inside the triangle 
+\begin{align*}
+\begin{split}
+\begin{vmatrix}
+ x\\ y \\ 1\\
+\end{vmatrix} = \begin{vmatrix}
+ a_x & b_x  & c_x\\ a_y & b_y & c_y \\ 1 & 1 & 1\\
+\end{vmatrix} 
+\begin{vmatrix}
+\alpha \\ \beta \\ \gamma\\
+\end{vmatrix} \\ 
+\end{split}
+\begin{split}
+\begin{vmatrix}
+ x'\\ y '\\ 1\\
+\end{vmatrix} = \begin{vmatrix}
+ a'_x & b'_x  & c'_x\\ a'_y & b'_y & c'_y \\ 1 & 1 & 1\\
+\end{vmatrix} 
+\begin{vmatrix}
+\alpha' \\ \beta' \\ \gamma'\\
+\end{vmatrix} 
+\end{split}
+\end{align*}
+\section*{TPS}
+$
+f(x) = a_1 + a_x(x_im) + a_y(y_im) + $\\
+$\sum^p_{i= 1} w_i U(||x_{ctrl_i},y_{ctrl_i} - (x_im, y_im)||) 
+$\\
+Where p is how many mean control points there are 
+x and y are pixel position in image 
+$x_ctrl, y_ctrl$ are mean control points 
+$U = -r^2 log10 r^2 $ 
+where r is the l2 norm between control points at i and the pixel
+w is the weighting 
+\section*{Blending}
+\subsection*{Alpha Blending}
+$I_blend= \alpha I_for + (1 - \alpha)I_back$ \\ 
+Where $\alpha$ is an alpha mask 
+ and multiplication is component wise \\
+ For multiple blending \\
+ premultiply alpha to all color channels use first equation 
+ \subsection*{Two Band Blending}
+ 1. make a binary mask apply it to forground high pass image and 1 - mask to high pass background image \\
+ 2.  make linear mask by applying gauss filter to binary mask  
+ 3. apply linear filter to foreground and 1-linear filter to back ground 
+ 4. add all of the things  
+\section*{Seam Carving}
+Energy map\\ 
+$e(Image) = |\frac{\delta}{\delta x} I| + |\frac{\delta}{\delta y} I|$ \\
+TA's just took the gradient of image and get X gradient matrix and Y gradient matrix and added them together \\ 
+optimal seam: \\ 
+$ s* = min_s \sum^n_{i = 1} e(I(s_i))$ \\ 
+Cumulative Map for vertical seam switch indices for horizontal seam\\
+$Map(i,j) = e(i,j) + min(M(i-1, j-1), M(i -1, j), M(i-1, j+1)) $\\ 
+Then start from bottom of Map and select the lowest value pixel 
+\section*{Harris Corners}
+$M = \sum_{x,y} \begin{vmatrix}
+I_x^2 &I_xI_y \\ I_xI_y &  I_y^2 
+\end{vmatrix}
+$ \\
+Eigen values of M $\lambda_1$ , $ \lambda_2$ \\ 
+Corner Response \\ 
+$R = det M \ Trace M $ 
+det M  = $ \lambda_1 * \lambda_2 $ \\ 
+Trace M = $ \lambda_1 + \lambda_2 $ \\ 
+edge if $\lambda_1 or \lambda_2$ are large\\
+corner if both are large 
+\section*{RANSAC}
+\begin{align*}
+N = \frac{\log(1-p)}{\log(1 - (1- e)^s)} 
+\end{align*}
+p = desired probability that random sample is free from outliers 
+$e = 1 -p $
+s = number of points in sample 
+N = number of loops in RANSAC (total samples) 
+\subsection*{Early Termination}
+$T = 1 -e  * total number of data points$
+
+\end{multicols}
+\end{document}
