@@ -1,3 +1,10 @@
 [submodule "linalg/Homework"]
 	path = linalg/Homework
 	url = https://github.com/stephenphillips42/CIS515Homework.git
+[submodule "graphics/final_project"]
+        path = graphics/final_project
+        url = https://github.com/liny6/cis560_final2.git
+[submodule "vision/final_proj"]
+        path = vision/final_proj
+        url = https://github.com/isafan/face_replacement.git
+
