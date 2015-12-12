@@ -8,3 +8,6 @@
         path = vision/final_proj
         url = https://github.com/isafan/face_replacement.git
 
+[submodule "cis581_final_proj"]
+	path = cis581_final_proj
+	url = https://github.com/isafan/cis581_final_proj.git

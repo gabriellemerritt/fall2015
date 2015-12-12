@@ -106,6 +106,13 @@
 		<bxdf>lambert1</bxdf>
 	</material>
 
+	<material type="default" name="textured_diffuse2">
+		<baseColor>1 1 1</baseColor>
+		<texture>tex_nor_maps/155.jpg</texture>
+		<normalMap>tex_nor_maps/155_norm.jpg</normalMap>
+		<bxdf>lambert1</bxdf>
+	</material>
+
 	<material type="default" name="reflective_white">
 		<baseColor>1 1 1</baseColor>
 		<bxdf>specular_reflective1</bxdf>
